@@ -195,7 +195,7 @@ module Paperclip
         if @options[:fog_host].respond_to?(:call)
           @options[:fog_host].call(self)
         else
-          (@options[:fog_host] =~ /%d/) ? @options[:fog_host] % (path(style).hash % 4) : @options[:fog_host]
+          host = (@options[:fog_host] =~ /%d/) ? @options[:fog_host] % (path(style).hash % 4) : @options[:fog_host]
           "#{host}/#{directory_name}"
         end
       end
