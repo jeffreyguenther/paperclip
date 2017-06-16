@@ -173,9 +173,11 @@ module Paperclip
       def copy_to_local_file(style, local_dest_path)
         log("copying #{path(style)} to local file #{local_dest_path}")
         ::File.open(local_dest_path, 'wb') do |local_file|
-          file = directory.files.get(path(style))
-          return false unless file
-          local_file.write(file.body)
+          directory.files.get(path(style)) do | data, remaining, content_length |
+#           return false unless file
+#           local_file.write(file.body)
+            local_file.syswrite data
+          end
         end
       rescue ::Fog::Errors::Error => e
         warn("#{e} - cannot copy #{path(style)} to local file #{local_dest_path}")
